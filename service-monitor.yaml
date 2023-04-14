@@ -1,0 +1,31 @@
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    prometheus: monitoring
+  name: redis-follower
+  namespace: redis-operator
+spec:
+  endpoints:
+  - honorLabels: true
+    port: redis-exporter
+  selector:
+    matchLabels: 
+      app: redis-cluster-follower
+
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    prometheus: monitoring
+  name: redis-leader
+  namespace: redis-operator
+spec:
+  endpoints:
+  - honorLabels: true
+    port: redis-exporter
+  selector:
+    matchLabels:
+      app: redis-cluster-leader

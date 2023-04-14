@@ -1,0 +1,23 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: redis-follower-ing
+  namespace: redis-operator
+spec:
+  ingressClassName: nginx
+  tls:
+  - hosts:
+    - redis-follower-core.rabitabank.com
+    secretName: rabbitmq-system/rabitabank.com-key-pair
+  rules:
+  - host: redis-follower-core.rabitabank.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: redis-cluster-follower
+            port:
+              number: 6379
